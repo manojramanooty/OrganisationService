@@ -7,9 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name="EMPLOYEE", uniqueConstraints= @UniqueConstraint(columnNames={"ID", "NAME"}))
 public class Employee {
 

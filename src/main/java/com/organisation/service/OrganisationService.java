@@ -9,10 +9,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.demo.dao.OrganisationDao;
+import com.organisation.dao.OrganisationDao;
 import com.organisation.datamodel.Employee;
 
 @Service
@@ -25,9 +26,11 @@ public class OrganisationService {
 	RestTemplate restTemplate;
 	
 	public List<Employee> getOldEmployees(Long id) {
-		List<Employee> response = restTemplate.exchange("http://employee-server/employees", HttpMethod.GET,null, new ParameterizedTypeReference<List>() {}).getBody();
-		List<Employee> oldEmployees = response.stream().filter(employee->employee.getAge()>50).collect(Collectors.toList());
-		return oldEmployees;
+		ResponseEntity<List<Employee>> rateResponse = restTemplate.exchange("http://employee-server/employees", HttpMethod.GET, null, new ParameterizedTypeReference<List<Employee>>() {
+            });
+        List<Employee> oldEmployees = rateResponse.getBody();
+		return oldEmployees.stream().filter(employee->employee.getAge()>50).collect(Collectors.toList());
+
 	}
 	
 	@Bean
